@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slippery</title>
+</head>
+<body>    
+    <img id="frog" src = "frog.png" alt="Frog">
+
+    <script>    
+    window.onload = function(){
+        frog.style.cssText ='cursor: pointer; width: 8%; height:10% position:fixed; bottom: 0; left: 1%;';
+    }
+
+    let left_position_digit = 0;
+    
+        frog.onmouseover = function() {
+
+            let start_time = Date.now();
+            let out_timer = setInterval(function() {
+                let time_passed = Date.now() - start_time;
+                if (time_passed >= 200) {
+                    clearInterval(out_timer); 
+                    return;
+                }
+                frog.style.top = (90 + time_passed/20) + '%' 
+            }, 10)
+
+            setTimeout(function() {
+                if (parseFloat(frog.style.left.slice(0, -1)) < 50) {
+                    left_position_digit = parseFloat(frog.style.left.slice(0, -1)) + 8 + Math.random() * (71 - parseFloat(frog.style.left.slice(0, -1))); 
+                }
+                else left_position_digit = parseFloat(frog.style.left.slice(0, -1)) - 8 - Math.random() * (parseFloat(frog.style.left.slice(0, -1)) - 8);
+                
+                let left_position = left_position_digit + '%';
+                frog.style.cssText ='cursor: pointer; width: 8%; position:fixed; top: 100%; left:' + left_position;
+                if (left_position_digit > 80) left_position_digit = 0;
+
+                start_time = Date.now();
+                let in_timer = setInterval(function() {
+                    let time_passed = Date.now() - start_time;
+                    if (time_passed >= 200) {
+                        clearInterval(in_timer);
+                        return;
+                    }
+                frog.style.top = (100 - time_passed/20) + '%';
+                }, 10)
+            }, 200)
+            
+        }
+    </script>
+
+</body>
+
+<style>
+    body
+    {
+        background-color: Plum;
+    }
+    #frog
+    {
+        cursor:pointer;   
+        width: 8%; 
+        height: 10%;
+        position:fixed;
+        bottom: 0;
+        left: 1%;
+    }
+
+</style>
+
+</html>
